@@ -1,0 +1,50 @@
+# See more at https://istio.io/docs/reference/config/networking/gateway/
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  #namespace: default
+  name: my-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+
+# See more at https://istio.io/docs/reference/config/networking/virtual-service/
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  #namespace: default
+  name: my-virtual-service
+spec:
+  gateways: 
+  - my-gateway
+  hosts:
+  - "*" 
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: intogit
+        port:
+          number: 8080
+          
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: maven-dest
+spec:
+  host: intogit  # Refers to a common service name
+  subsets:
+    - name: blue
+      labels:
+        version: blue  # This version is associated with the blue deployment.
