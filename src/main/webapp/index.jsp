@@ -11,7 +11,7 @@
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: #ff00b7; /* Light yellow background */
+            background-color: #1cd247; /* Light yellow background */
             color: #333;
             margin: 0;
             padding: 20px;
